@@ -1,0 +1,43 @@
+#include <RTClib.h>
+
+#define SET_RTC_TIME  // KOMENTARI BARIS INI SETELAH RTC DISET DENGAN BENAR
+
+char daysOfTheWeek[7][12] = {
+  "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+};
+
+RTC_DS3231 rtc;
+
+void rtc_setup() {
+  if (! rtc.begin()) {
+    Serial.println("Couldn't find RTC");
+    while (1);
+  }
+
+#ifdef SET_RTC_TIME
+  rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+#endif
+
+  if (rtc.lostPower()) {
+    Serial.println("RTC lost power, set time again!");
+    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  }
+}
+
+void rtc_clock_now() {
+  DateTime now = rtc.now();
+  char buffer[9];
+  snprintf(buffer, sizeof(buffer), "%02d:%02d:%02d", now.hour(), now.minute(), now.second());
+  Serial.print("Current Time: ");
+  Serial.println(buffer);
+}
+
+void rtc_date_now() {
+  DateTime now = rtc.now();
+  char buffer[20];
+  snprintf(buffer, sizeof(buffer), "%s, %02d-%02d-%04d",
+           daysOfTheWeek[now.dayOfTheWeek()],
+           now.day(), now.month(), now.year());
+  Serial.print("Current Date: ");
+  Serial.println(buffer);
+}

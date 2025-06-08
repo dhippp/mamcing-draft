@@ -6,12 +6,12 @@
 HX711 loadcell;
 
 void loadcell_calibrate(){
-    float test_berat = 200; //gram //input berat benda yang digunakan untuk kalibrasi
+    float test_berat = 100; //gram //input berat benda yang digunakan untuk kalibrasi
     loadcell.tare(); //meng-nol-kan nilai mentah
     long raw = loadcell.get_value(10); //mendapatkan nilai mentah baru dengan start di 0 dan dari rata-rata 10 bacaan
     Serial.print("Raw value: ");
     Serial.println(raw);
-    float scale_baru = raw / test_berat; //perbandingan 
+    float scale_baru = raw / test_berat; //buat rasio
     loadcell.set_scale(scale_baru);
 }
 

@@ -4,14 +4,13 @@
 // Provide the RTDB payload printing info and other helper functions.
 #include <addons/RTDBHelper.h>
 
-// setup firebase
-#define DATABASE_URL "https://projectep-abbca-default-rtdb.asia-southeast1.firebasedatabase.app/"
-#define FIREBASE_AUTH "ChecdgjtQWSexTEzs3gn7i4WDp9bVvvXZl6wOrjM"
-#define API_KEY "AIzaSyAVAgUbn0L5J8LXeQP9C2-CijAqy-51Cp0"
+#define DATABASE_URL "https://mamcing-5c348-default-rtdb.asia-southeast1.firebasedatabase.app/"
+#define API_KEY "AIzaSyBJEIXP0OO3-1oQTvCZZfZ2Gz-9WF8d8j4"
 
 // setup user
 #define USER_EMAIL "ayubisal1345@gmail.com"
-#define USER_PASSWORD "udinganteng123"
+#define USER_PASSWORD "ayyubi1345"
+
 // Firebase objects
 FirebaseData fbdo;
 FirebaseData firebaseData;

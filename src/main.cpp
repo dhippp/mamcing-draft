@@ -64,20 +64,20 @@ void loop(){
   // }
 
   //================== MAIN PROGRAM =====================
-if ((rtc_clock_insecond_now()!=jamMam1_insecond) || (rtc_clock_insecond_now()!=jamMam2_insecond)){
-  if (kasihMam>0){
-    last_berat_wadah = loadcell.read();
-    while (loadcell.read()<(last_berat_wadah + kasihMam)){
-      servo_counterclockwise_move();
-      // servo_clockwise_move();
+  if ((rtc_clock_insecond_now()!=jamMam1_insecond) || (rtc_clock_insecond_now()!=jamMam2_insecond)){
+    if (kasihMam>0){
+      last_berat_wadah = loadcell.read();
+      while (loadcell.read()<(last_berat_wadah + kasihMam)){
+        servo_counterclockwise_move();
+        // servo_clockwise_move();
+      }
+    }
+  } else{
+    while (loadcell.read()<sekaliMam){
+        servo_counterclockwise_move();
+        // servo_clockwise_move();
     }
   }
-} else{
-  while (loadcell.read()<sekaliMam){
-      servo_counterclockwise_move();
-      // servo_clockwise_move();
-  }
-}
 
   delay(100);
 }

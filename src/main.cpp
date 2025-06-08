@@ -7,10 +7,7 @@
 
 Servo servo_spiral;
 
-//isih kudu diperhitungkan debit e
-const float gram_per_detik = 10.0;
-const float waktu_per_gram = 1.0 / gram_per_detik;
-bool servo_direction = true; //clockwise
+bool servo_direction = true;
 static unsigned long lastToggle = 0;
 int last_berat_wadah;
 unsigned long jamMam1_insecond = ((jamMam1%100)*60) + ((jamMam1/100)*3600);
@@ -70,12 +67,15 @@ void loop(){
       while (loadcell.read()<(last_berat_wadah + kasihMam)){
         servo_counterclockwise_move();
         // servo_clockwise_move();
+        delay(100);
       }
+      kasihMam = 0;
     }
   } else{
     while (loadcell.read()<sekaliMam){
         servo_counterclockwise_move();
         // servo_clockwise_move();
+        delay(100);
     }
   }
 

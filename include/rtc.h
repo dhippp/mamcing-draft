@@ -24,13 +24,28 @@ void rtc_setup() {
   }
 }
 
-void rtc_clock_now() {
-  DateTime now = rtc.now();
-  char buffer[9];
-  snprintf(buffer, sizeof(buffer), "%02d:%02d:%02d", now.hour(), now.minute(), now.second());
-  Serial.print("Current Time: ");
-  Serial.println(buffer);
+
+uint8_t rtc_clock_now(){
+    DateTime now = rtc.now();
+
+    uint8_t jam    = now.hour();
+    uint8_t menit  = now.minute();
+    uint8_t detik  = now.second();
+
+    return jam;
 }
+
+long rtc_insecond_now() {
+    DateTime now = rtc.now();
+
+    long insecond = now.unixtime();
+//   char buffer[9];
+//   snprintf(buffer, sizeof(buffer), "%02d:%02d:%02d", now.hour(), now.minute(), now.second());
+//   Serial.print("Current Time: ");
+//   Serial.println(buffer);
+    return insecond;
+}
+
 
 void rtc_date_now() {
   DateTime now = rtc.now();

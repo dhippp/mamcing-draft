@@ -10,9 +10,6 @@
 
 Servo servo_spiral;
 
-const float berat_default = 100.0;
-const float batas_minimal = 50.0;
-
 
 //isih kudu diperhitungkan debit e
 const float gram_per_detik = 10.0;
@@ -22,22 +19,26 @@ DateTime waktu_terakhir_pakan;
 
 void setup() {
   Serial.begin(115200);
+  WiFi.begin("nctrn","88888888");
+
   rtc_setup();
   FirebaseSetup();
   loadcell_setup();
   // servo_spiral.attach(PIN_SERVO);
   pinMode(PIN_SERVO, OUTPUT);
-  WiFi.begin("nctrn","88888888");
   Serial.print("Startig...");
 }
 
 void loop(){
   digitalWrite(PIN_SERVO, HIGH);
-
+  
   // //==========RTC================
   
-  // rtc_clock_now();
-  // rtc_date_now();
+  Serial.print("Jam: ");
+  Serial.println(rtc_clock_now());
+  
+  Serial.print("Jam konversi full detik: ");
+  Serial.println(rtc_insecond_now());
 
 
   // //==========LOAD CELL============
@@ -51,7 +52,7 @@ void loop(){
 
 
 
-  delay (1000);
+  delay (100);
 
 }
 

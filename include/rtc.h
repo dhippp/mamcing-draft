@@ -6,8 +6,11 @@ RTC_DS3231 rtc;
 
 void rtc_setup() {
   if (! rtc.begin()) {
-    Serial.println("Couldn't find RTC");
-    while (1);
+    Serial.print("Couldn't find RTC");
+    while (1){
+      Serial.print(".");
+      delay(100);
+    };
   }
   #ifdef SET_RTC_TIME
     rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));

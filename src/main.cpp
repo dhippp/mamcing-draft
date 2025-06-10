@@ -5,27 +5,23 @@
 #include <servo.h>
 #include <firebase_auth.h>
 
-Servo servo_spiral;
+#define username_wifi "nctrn"
+#define pass_wifi "88888888"
 
-bool servo_direction = true;
-static unsigned long lastToggle = 0;
 int last_berat_wadah;
 unsigned long jamMam1_insecond = ((jamMam1%100)*60) + ((jamMam1/100)*3600);
 unsigned long jamMam2_insecond = ((jamMam2%100)*60) + ((jamMam2/100)*3600);
 
-
-DateTime waktu_terakhir_pakan;
-
 void setup() {
   Serial.begin(115200);
-  WiFi.begin("nctrn","88888888");
+  WiFi.begin(username_wifi, pass_wifi);
 
   rtc_setup();
   loadcell_setup();
   servo_setup();
-  // FirebaseSetup();
+  FirebaseSetup();
 
-  Serial.print("Starting...");
+  Serial.print("Mamcing Starting........");
 }
 
 void loop(){  
@@ -61,23 +57,54 @@ void loop(){
   // }
 
   //================== MAIN PROGRAM =====================
+    read_database();
+
+    Serial.print("sekarang = ");
+    Serial.println(loadcell_read());
+    Serial.println();
+
   if ((rtc_clock_insecond_now()!=jamMam1_insecond) || (rtc_clock_insecond_now()!=jamMam2_insecond)){
     if (kasihMam>0){
-      last_berat_wadah = loadcell.read();
-      while (loadcell.read()<(last_berat_wadah + kasihMam)){
+
+      Serial.println("kasihMam aktif!");
+      Serial.print("kasihMam sebanyak = ");
+      Serial.print(kasihMam);
+      Serial.println();
+
+      last_berat_wadah = loadcell_read();
+      while (loadcell_read()<(last_berat_wadah + kasihMam)){
+        
         servo_counterclockwise_move();
         // servo_clockwise_move();
-        delay(100);
+
+        Serial.print("tujuan = ");
+        Serial.println(last_berat_wadah+kasihMam);
+        Serial.print("sekarang = ");
+        Serial.println(loadcell_read());
+        Serial.println();
       }
-      kasihMam = 0;
+      Serial.println("kasihmam selesai!");
+      servo_stop_move();
+      Firebase.RTDB.setInt(&fbdo, "/data/kasihmam", 0);
     }
   } else{
-    while (loadcell.read()<sekaliMam){
+    Serial.println("sekarang JamMam!");
+    }
+    while (loadcell_read()<sekaliMam){
+      
         servo_counterclockwise_move();
         // servo_clockwise_move();
-        delay(100);
-    }
-  }
 
-  delay(100);
+        Serial.print("terus ditambah sampai = ");
+        Serial.println(sekaliMam);
+        Serial.print("sekarang = ");
+        Serial.println(loadcell_read());
+        Serial.println();
+
+    }
+    servo_stop_move();
+    if(loadcell_read()>=sekaliMam){
+      Serial.println("wadah sesuai sekaliMam!");
+  }
+  delay(2000);
 }

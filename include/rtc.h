@@ -4,6 +4,8 @@
 
 RTC_DS3231 rtc;
 
+char logger[12];
+
 void rtc_setup() {
   if (! rtc.begin()) {
     Serial.print("Couldn't find RTC");
@@ -27,6 +29,13 @@ void rtc_clock_now(){
   snprintf(buffer, sizeof(buffer), "%02d:%02d:%02d", now.hour(), now.minute(), now.second());
   Serial.println(buffer);
 }
+
+void rtc_logger(){
+  DateTime now = rtc.now();
+  snprintf(logger, sizeof(logger), "%02d:%02d:%02d:%02d", now.day(), now.month() ,  now.hour(), now.minute());
+  // Serial.println(buffer);
+}
+
 
 unsigned long rtc_clock_insecond_now() {
   DateTime now = rtc.now();

@@ -64,13 +64,32 @@ void loop(){
   // }
 
   //================== MAIN PROGRAM =====================
-    read_database();
+  read_database();
 
-    Serial.print("sekarang = ");
-    Serial.println(loadcell_read());
-    Serial.println();
+  Serial.print("sekarang = ");
+  Serial.println(loadcell_read());
+  Serial.println();
 
   if ((rtc_clock_insecond_now() >= jamMam1_insecond && rtc_clock_insecond_now() <= jamMam1_insecond + 10) || (rtc_clock_insecond_now() >= jamMam2_insecond && rtc_clock_insecond_now() <= jamMam2_insecond + 10)){
+    Serial.println("sekarang JamMam!");
+    while (loadcell_read()<sekaliMam){
+      
+        servo_counterclockwise_move();
+        // servo_clockwise_move();
+
+        Serial.print("terus ditambah sampai = ");
+        Serial.println(sekaliMam);
+        Serial.print("sekarang = ");
+        Serial.println(loadcell_read());
+        Serial.println();
+
+    }
+    servo_stop_move();
+    if(loadcell_read()>=sekaliMam){
+      Serial.println("wadah sesuai sekaliMam!");
+    }
+  } 
+  else{
     if (kasihMam>0){
 
       Serial.println("kasihMam aktif!");
@@ -94,26 +113,8 @@ void loop(){
       servo_stop_move();
       Firebase.RTDB.setInt(&fbdo, "/data/kasihmam", 0);
     }
-  } else{
-    Serial.println("sekarang JamMam!");
-    }
-    while (loadcell_read()<sekaliMam){
-      
-        servo_counterclockwise_move();
-        // servo_clockwise_move();
-
-        Serial.print("terus ditambah sampai = ");
-        Serial.println(sekaliMam);
-        Serial.print("sekarang = ");
-        Serial.println(loadcell_read());
-        Serial.println();
-
-    }
-    servo_stop_move();
-    if(loadcell_read()>=sekaliMam){
-      Serial.println("wadah sesuai sekaliMam!");
-
   }
+
   jam = rtc.now();
   if(jam.hour() != last_hour){
     rtc_logger();

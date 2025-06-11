@@ -28,7 +28,8 @@ void setup() {
   jam = rtc.now();
   last_hour = jam.hour();
 
-  Serial.print("Mamcing Starting........");
+  Serial.println("Mamcing Starting........");
+  Serial.println();
 }
 
 void loop(){  
@@ -68,7 +69,6 @@ void loop(){
 
   Serial.print("sekarang = ");
   Serial.println(loadcell_read());
-  Serial.println();
 
   if ((rtc_clock_insecond_now() >= jamMam1_insecond && rtc_clock_insecond_now() <= jamMam1_insecond + 10) || (rtc_clock_insecond_now() >= jamMam2_insecond && rtc_clock_insecond_now() <= jamMam2_insecond + 10)){
     Serial.println("sekarang JamMam!");
@@ -117,10 +117,15 @@ void loop(){
 
   jam = rtc.now();
   if(jam.hour() != last_hour){
-    rtc_logger();
-    sprintf(path, "/data/profile/ciko/log/%d", logger);
+    DateTime now = rtc.now();
+    // rtc_logger();
+    sprintf(path, "/data/profile/ciko/log/%ld", now.unixtime());
     Firebase.RTDB.setInt(&fbdo, path, loadcell_read());
     last_hour = jam.hour();
+    Serial.println("================BERHASIL LOG================");
   }
+  Serial.println(last_hour);
+  // rtc_logger();
+  Serial.println();
   delay(2000);
 }

@@ -16,11 +16,11 @@ void rtc_setup() {
     };
   }
   #ifdef SET_RTC_TIME
-    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+    rtc.adjust(DateTime(2025, 6, 11, 22, 59, 30)); // Year, Month, Day, Hour, Minute, Second
   #endif
   if (rtc.lostPower()) {
     Serial.println("RTC lost power, set time again!");
-    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+    rtc.adjust(DateTime(2025, 6, 11, 22, 59, 30));
   }
 }
 
@@ -33,8 +33,9 @@ void rtc_clock_now(){
 
 void rtc_logger(){
   DateTime now = rtc.now();
-  snprintf(logger, sizeof(logger), "%02d:%02d:%02d:%02d", now.day(), now.month() ,  now.hour(), now.minute());
-  // Serial.println(buffer);
+  snprintf(logger, sizeof(logger), "%ld", now.unixtime());
+  // Serial.println(logger);
+  // Serial.print(now.unixtime());
 }
 
 

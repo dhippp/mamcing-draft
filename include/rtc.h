@@ -6,6 +6,7 @@ RTC_DS3231 rtc;
 
 char logger[12];
 
+
 void rtc_setup() {
   if (! rtc.begin()) {
     Serial.print("Couldn't find RTC");

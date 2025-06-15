@@ -18,9 +18,23 @@ HX711 loadcell;
     // loadcell.set_scale(scale_baru);
 // }
 
+// void loadcell_rata(){
+//     float rata = 0;
+//     for (int i = 0; i < 50; i++){
+//         rata += loadcell.read();
+//         Serial.print("Pembacaan ke-");
+//         Serial.println(i + 1);
+//         delay(1000);
+//     }
+//     Serial.println("SELESAI PEMBACAAN 50 KALI");
+//     rata /= 50; //rata-rata dari 50 kali pembacaan
+//     Serial.print("Rata-rata pembacaan loadcell: ");
+//     Serial.println(rata);
+// }
+
 void loadcell_setup(){
     loadcell.begin(PIN_DATA, PIN_CLOCK);
-    loadcell.set_scale(1203);
+    loadcell.set_scale(120538/100);
     loadcell.tare();
     // loadcell_calibrate();
 }

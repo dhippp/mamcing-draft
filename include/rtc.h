@@ -16,11 +16,13 @@ void rtc_setup() {
     };
   }
   #ifdef SET_RTC_TIME
-    rtc.adjust(DateTime(2025, 6, 11, 22, 59, 30)); // Year, Month, Day, Hour, Minute, Second
+    rtc.adjust(DateTime(F(__DATE__), F(__TIME__))); // Set RTC to compile time
+    // rtc.adjust(DateTime(2025, 6, 12, 12, 31, 10)); // Year, Month, Day, Hour, Minute, Second
   #endif
   if (rtc.lostPower()) {
     Serial.println("RTC lost power, set time again!");
-    rtc.adjust(DateTime(2025, 6, 11, 22, 59, 30));
+    rtc.adjust(DateTime(F(__DATE__), F(__TIME__))); // Set RTC to compile time
+    // rtc.adjust(DateTime(2025, 6, 12, 12, 31, 10)); // Year, Month, Day, Hour, Minute, Second
   }
 }
 

@@ -5,12 +5,11 @@
 #include <servo.h>
 #include <firebase_auth.h>
 
-#define username_wifi "nctrn"
-#define pass_wifi "88888888"
+#define username_wifi "yubi"
+#define pass_wifi "udinganteng123"
 
 int last_berat_wadah;
-unsigned long jamMam1_insecond = ((jamMam1%100)*60) + ((jamMam1/100)*3600);
-unsigned long jamMam2_insecond = ((jamMam2%100)*60) + ((jamMam2/100)*3600);
+
 
 char path[50];
 int last_hour;
@@ -27,6 +26,8 @@ void setup() {
 
   jam = rtc.now();
   last_hour = jam.hour();
+
+  // loadcell_rata(); //untuk mendapatkan nilai rata-rata loadcell
 
   Serial.println("Mamcing Starting........");
   Serial.println();
@@ -88,6 +89,10 @@ void loop(){
     if(loadcell_read()>=sekaliMam){
       Serial.println("wadah sesuai sekaliMam!");
     }
+    DateTime now = rtc.now();
+    // rtc_logger();
+    sprintf(path, "/data/profile/ciko/log/%ld", now.unixtime());
+    Firebase.RTDB.setInt(&fbdo, path, loadcell_read());
   } 
   else{
     if (kasihMam>0){
@@ -124,7 +129,8 @@ void loop(){
     last_hour = jam.hour();
     Serial.println("================BERHASIL LOG================");
   }
-  Serial.println(last_hour);
+  Serial.println(rtc_clock_insecond_now());
+  Serial.println(jamMam2_insecond);
   // rtc_logger();
   Serial.println();
   delay(2000);
